@@ -22,6 +22,18 @@ class CharRNN(nn.Module):
         # Инициализация весов для лучшей сходимости
         self._init_weights()
 
+    def _init_weights(self):
+        """Инициализация весов модели для лучшей сходимости"""
+        for name, param in self.named_parameters():
+            if 'weight_ih' in name:  # Input-to-hidden weights
+                torch.nn.init.xavier_uniform_(param)
+            elif 'weight_hh' in name:  # Hidden-to-hidden weights
+                torch.nn.init.orthogonal_(param)
+            elif 'bias' in name:
+                torch.nn.init.constant_(param, 0.0)
+            elif 'weight' in name and param.dim() >= 2:  # Linear layer weights
+                torch.nn.init.xavier_uniform_(param)
+
     def forward(self, x, hidden=None):
         x = self.embed(x)
         out, hidden = self.rnn(x, hidden)

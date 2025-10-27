@@ -1,4 +1,3 @@
-
 import torch
 import torch.nn.functional as F
 import math, time, os, random
@@ -52,19 +51,32 @@ class Trainer:
 
     @torch.no_grad()
     def sample_and_log(self, epoch):
-        # Идентичная логика генерации как в karp.py
-        context = torch.tensor([[self.stoi[random.choice(self.charset)]]], device=self.device)
-        hidden = None
-        generated = []
-        for _ in range(300):
-            logits, hidden = self.model(context, hidden)
-            probs = F.softmax(logits[:, -1, :], dim=-1)
-            next_id = torch.multinomial(probs, 1)
-            context = next_id
-            generated.append(next_id.item())
-        sample_text = self.decode(generated)
-        self.writer.add_text("Samples/generated", f"**Epoch {epoch}**\n\n{sample_text}", epoch)
-        print("Пример генерации:\n", sample_text[:400])
+        # Используем TextGenerator для консистентной генерации
+        from src.infer import TextGenerator
+        generator = TextGenerator(self.model, self.stoi, self.itos, self.charset, self.device)
+        
+        # Генерируем несколько образцов с разными параметрами
+        samples = []
+        
+        # 1. Обычная генерация
+        sample1 = generator.generate(max_len=200, temperature=1.0)
+        samples.append(f"**Обычная генерация (temp=1.0):**\n{sample1}")
+        
+        # 2. Более консервативная генерация
+        sample2 = generator.generate(max_len=200, temperature=0.8, top_k=50)
+        samples.append(f"**Консервативная (temp=0.8, top_k=50):**\n{sample2}")
+        
+        # 3. Креативная генерация
+        sample3 = generator.generate(max_len=200, temperature=1.2, top_p=0.9)
+        samples.append(f"**Креативная (temp=1.2, top_p=0.9):**\n{sample3}")
+        
+        all_samples = "\n\n---\n\n".join(samples)
+        
+        # Логируем в TensorBoard
+        self.writer.add_text("Samples/generated", f"**Epoch {epoch}**\n\n{all_samples}", epoch)
+        
+        # Выводим в консоль только первый образец
+        print("Пример генерации:\n", sample1[:400])
         print("=" * 80)
 
     def train(self, num_epochs=35000, block_size=50, batch_size=64, log_interval=100):

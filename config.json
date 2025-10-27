@@ -14,7 +14,7 @@
     "training": {
         "batch_size": 64,
         "block_size": 50,
-        "num_epochs": 35000,
+        "num_epochs": 36000,
         "lr": 0.001,
         "optimizer": "Adam",
         "scheduler": null,
@@ -24,8 +24,8 @@
         "eval_interval": 100
     },
     "paths": {
-        "checkpoint_path": "checkpoints/charRNN_checkpoint_1x1024_ln_n0.3_lr1e-3l.pt",
-        "tensorboard_dir": "runs/charRNN_LSTM_1x1024_ln_n0.3_lr1e-3l",
+        "checkpoint_path": "checkpoints/charRNN_checkpoint_1x1024_ln_n0.3_lr1e-3d.pt",
+        "tensorboard_dir": "runs/charRNN_LSTM_1x1024_ln_n0.3_lr1e-3d",
         "exp_dir": "experiments/exp1"
     },
     "generation": {
