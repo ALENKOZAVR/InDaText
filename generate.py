@@ -12,7 +12,7 @@ import sys
 sys.path.append('src')
 
 from src.model import CharRNN
-from src.infer import TextGenerator
+from src.generator import TextGenerator
 from src.utils import load_text_and_charset
 from src.config import load_config
 

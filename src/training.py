@@ -52,7 +52,7 @@ class Trainer:
     @torch.no_grad()
     def sample_and_log(self, epoch):
         # Используем TextGenerator для консистентной генерации
-        from src.infer import TextGenerator
+        from src.generator import TextGenerator
         generator = TextGenerator(self.model, self.stoi, self.itos, self.charset, self.device)
         
         # Генерируем несколько образцов с разными параметрами
