@@ -2,7 +2,7 @@ import torch
 from torch.utils.tensorboard import SummaryWriter
 
 from src.model import CharRNN
-from src.trainer import Trainer
+from src.training import Trainer
 from src.utils import load_text_and_charset
 from src.config import load_config
 
