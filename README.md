@@ -14,7 +14,11 @@ python train.py
 
 ## Генерация текста
 ```bash
-python infer.py --prompt "Жил-был"
+python generate.py --help
+
+Примеры:
+python generate.py --prompt "Жил-был" --length 200 --temperature 0.8
+python generate.py --prompt "Добрый день" --creative --length 150
 ```
 
 ## Структура проекта
