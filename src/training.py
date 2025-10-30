@@ -1,6 +1,6 @@
 import torch
 import torch.nn.functional as F
-import math, time, os, random
+import math, time, os
 
 class Trainer:
     def __init__(self, model, optimizer, train_data, val_data, vocab_size, writer, device, checkpoint_path, charset, stoi, itos, decode, config=None):
